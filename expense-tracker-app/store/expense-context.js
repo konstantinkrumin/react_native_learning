@@ -49,14 +49,10 @@ function expensesReducer(state, action) {
 			const updatableExpenseIndex = state.findIndex(
 				expense => expense.id === action.payload.id
 			);
-
 			const updatableExpense = state[updatableExpenseIndex];
-
 			const updatedItem = { ...updatableExpense, ...action.payload.data };
-
 			const updatedExpenses = [...state];
 			updatedExpenses[updatableExpenseIndex] = updatedItem;
-
 			return updatedExpenses;
 		case 'DELETE':
 			return state.filter(expense => expense.id !== action.payload);
@@ -77,7 +73,7 @@ function ExpensesContextProvider({ children }) {
 	}
 
 	function updateExpense(id, expenseData) {
-		dispatch({ type: 'UPDATE', payload: { id, expenseData } });
+		dispatch({ type: 'UPDATE', payload: { id: id, data: expenseData } });
 	}
 
 	const value = {
