@@ -2,8 +2,10 @@ import axios from 'axios';
 
 import { FIREBASE_REFERENCE_URL } from '@env';
 
-export function storeExpense(expenseData) {
-	axios.post(FIREBASE_REFERENCE_URL + '/expenses.json', expenseData);
+export async function storeExpense(expenseData) {
+	const response = await axios.post(FIREBASE_REFERENCE_URL + '/expenses.json', expenseData);
+	const id = response.data.name;
+	return id;
 }
 
 export async function fetchExpenses() {
