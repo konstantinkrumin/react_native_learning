@@ -26,3 +26,11 @@ export async function fetchExpenses() {
 
 	return expenses;
 }
+
+export function updateExpense(id, expenseData) {
+	return axios.put(FIREBASE_REFERENCE_URL + `/expenses/${id}.json`, expenseData);
+}
+
+export function deleteExpense(id) {
+	return axios.delete(FIREBASE_REFERENCE_URL + `/expenses/${id}.json`);
+}
