@@ -1,10 +1,41 @@
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from 'expo-location';
 
 import OutlinedButton from '../UI/OutlinedButton';
 import { Colors } from '../../constants/colors';
 
 function LocationPicker() {
-	function getLocationHandler() {}
+	const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
+
+	async function verifyPermissions() {
+		if (locationPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+			const permissionResponse = await requestPermission();
+
+			return permissionResponse.granted;
+		}
+
+		if (locationPermissionInformation.status === PermissionStatus.DENIED) {
+			Alert.alert(
+				'Insufficient Permissions!',
+				'You need to grant location permissions to use this app.'
+			);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	async function getLocationHandler() {
+		const hasPermission = await verifyPermissions();
+
+		if (!hasPermission) {
+			return;
+		}
+
+		const location = await getCurrentPositionAsync();
+		console.log(location);
+	}
 
 	function pickOnMapHandler() {}
 
