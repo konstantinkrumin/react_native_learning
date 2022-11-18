@@ -25,7 +25,8 @@ function PlaceForm({ onCreatePlace }) {
 	}, []);
 
 	function savePlaceHandler() {
-		const placeData = new Place(enteredTitle, selectedImage, pickedLocation);
+		// hardcoded coordinates below since no real api used
+		const placeData = new Place(enteredTitle, selectedImage, { lat: 43.6426, lng: 79.3871 });
 		onCreatePlace(placeData);
 	}
 

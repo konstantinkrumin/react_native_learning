@@ -10,7 +10,7 @@ function AllPlaces({ route }) {
 
 	useEffect(() => {
 		if (isFocused && route.params) {
-			setLoadedPlaces((currPlaces = [...currPlaces, route.params.place]));
+			setLoadedPlaces(currPlaces => [...currPlaces, route.params.place]);
 		}
 	}, [isFocused, route]);
 
