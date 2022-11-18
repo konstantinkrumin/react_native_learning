@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,10 +9,15 @@ import AddPlace from './screens/AddPlace';
 import Map from './screens/Map';
 
 import { Colors } from './constants/colors';
+import { init } from './util/database';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+	useEffect(() => {
+		init();
+	}, []);
+
 	return (
 		<>
 			<StatusBar style="dark" />
