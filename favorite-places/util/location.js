@@ -16,6 +16,7 @@ export async function getAddress(lat, lng) {
 	}
 
 	const data = response.json();
+
 	const address = data.results[0].formatted_address;
 
 	return address;
