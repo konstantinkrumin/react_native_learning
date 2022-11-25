@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Button, StyleSheet, Text, View, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -14,6 +14,8 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+	const [pushToken, setPushToken] = useState('');
+
 	useEffect(() => {
 		async function congigurePushNotifications() {
 			const { status } = await Notifications.getPermissionsAsync();
@@ -34,7 +36,7 @@ export default function App() {
 			}
 
 			const pushTokenData = await Notifications.getExpoPushTokenAsync();
-			console.log(pushTokenData);
+			setPushToken(pushTokenData.data);
 
 			if (Platform.OS === 'android') {
 				Notifications.setNotificationChannelAsync('default', {
@@ -85,9 +87,24 @@ export default function App() {
 		});
 	}
 
+	function sendPushNotificationHandler() {
+		fetch('https://expo.host/--/api/v2/push/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				to: pushToken,
+				title: 'Test - send from a device!',
+				body: 'This is a test!'
+			})
+		});
+	}
+
 	return (
 		<View style={styles.container}>
 			<Button title="Schedule Notification" onPress={scheduleNotificationHandler} />
+			<Button title="Send Push Notification" onPress={sendPushNotificationHandler} />
 			<StatusBar style="auto" />
 		</View>
 	);
