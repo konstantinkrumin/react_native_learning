@@ -15,7 +15,7 @@ Notifications.setNotificationHandler({
 
 export default function App() {
 	useEffect(() => {
-		const subsription = Notifications.addNotificationReceivedListener(notification => {
+		const subsription1 = Notifications.addNotificationReceivedListener(notification => {
 			console.log('NOTIFICATION RECEIVED');
 			console.log(notification);
 
@@ -23,8 +23,17 @@ export default function App() {
 			console.log(userName);
 		});
 
+		const subsription2 = Notifications.addNotificationResponseReceivedListener(response => {
+			console.log('NOTIFICATION RESPONSE RECEIVED');
+			console.log(response);
+
+			const userName = notification.request.content.data.userName;
+			console.log(userName);
+		});
+
 		return () => {
-			subsription.remove();
+			subsription1.remove();
+			subsription2.remove();
 		};
 	}, []);
 
